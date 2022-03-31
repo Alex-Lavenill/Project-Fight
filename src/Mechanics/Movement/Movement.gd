@@ -1,11 +1,12 @@
 extends Node2D
 
-export (int) var speed = 350
+export (int) var speed = 200
 export (Vector2) var dash_speed = Vector2(1200, 700)
 export (int) var jump_speed = -900
 export (int) var gravity = 3000
-export (float, 0, 1.0) var friction = 0.25
-export (float, 0, 1.0) var acceleration = 0.25
+export (float, 0, 1.0) var friction = 0.3
+export (float, 0, 1.0) var acceleration = 0.5
+export (float) var force_modifier = 1
 
 onready var parent := get_parent()
 onready var dash_timer := $DashTimer
@@ -24,9 +25,12 @@ func _physics_process(delta: float) -> void:
 
 func move(direction: Vector2) -> void:
 	if direction.x != 0:
-		velocity.x = lerp(velocity.x, direction.x * speed, acceleration)
+		velocity.x = direction.x * speed
 	else:
-		velocity.x = lerp(velocity.x, 0, acceleration)
+		if parent.is_on_floor():
+			velocity.x = lerp(velocity.x, 0, friction)
+		else:
+			velocity.x = lerp(velocity.x, 0, friction/2)
 
 func fall_through() -> void:
 	if can_fall:
@@ -44,6 +48,12 @@ func dash(dir: Vector2) -> void:
 		if !parent.is_on_floor():
 			can_dash = false
 			dash_timer.start()
+
+func knockback(final_force: float, dir: Vector2) -> void:
+	var knockback_strength : float = final_force * force_modifier
+	print('Final KO force: ', knockback_strength)
+	velocity = dir * knockback_strength
+	print('Vel: ', velocity)
 
 func _DashTimer_timeout() -> void:
 	can_dash = true

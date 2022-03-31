@@ -1,6 +1,6 @@
 extends Node2D
 
-onready var pre_neutral_light := preload("res://src/Mechanics/Attacks/NeutralLight/NeutralLight.tscn")
+onready var pre_up_light := preload("res://src/Mechanics/Attacks/UpLight/UpLight.tscn")
 onready var parent := get_parent()
 
 var is_hitting := false
@@ -26,12 +26,13 @@ func attack_cooldown() -> void:
 		in_cooldown = false
 		curr_cooldown = null
 
-func neutral_light() -> void:
-	if curr_cooldown != pre_neutral_light:
-		var n_light := pre_neutral_light.instance()
-		add_child(n_light)
-		n_light.hit()
-		curr_attack = pre_neutral_light
+func up_light(strength: float) -> void:
+	if curr_cooldown != pre_up_light:
+		var upLight := pre_up_light.instance()
+		add_child(upLight)
+		upLight.add_to_group("ATTACK")
+		upLight.hit(strength)
+		curr_attack = pre_up_light
 		is_hitting = true
 
 

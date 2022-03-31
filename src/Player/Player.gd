@@ -1,5 +1,9 @@
 extends KinematicBody2D
 
+# FIGHTER STATUS
+export (float) var strenght := 50
+export (float) var defense := 10
+
 onready var movement := $Movement
 onready var hitbox := $Hitbox
 
@@ -25,9 +29,8 @@ func get_input():
 	
 	# ATTACKS
 	if Input.is_action_pressed("light") and Input.is_action_pressed("up"):
-#		print('hitting', hitbox.is_hitting)
 		if !hitbox.is_hitting:
-			hitbox.neutral_light()
+			hitbox.up_light(strenght)
 
 func _physics_process(delta: float) -> void:
 	if !hitbox.is_hitting:

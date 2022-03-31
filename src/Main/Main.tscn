@@ -11,10 +11,10 @@ anchor_bottom = 1.0
 [node name="ProtoMap" parent="." instance=ExtResource( 1 )]
 
 [node name="Enemy" parent="." instance=ExtResource( 3 )]
-position = Vector2( 656, 304 )
+position = Vector2( 406, 361 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 417, 229 )
+position = Vector2( 350, 361 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 512, 300 )
