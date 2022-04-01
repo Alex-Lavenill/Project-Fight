@@ -14,8 +14,8 @@ var stun_time := 0
 func _physics_process(delta: float) -> void:
 	if !hitbox.is_hitting:
 		hitbox.up_light(strenght)
-	movement.move(Vector2.ZERO)
-	if is_stunned:
-		stun_time -= 1
-		if stun_time == 0:
-			is_stunned = false
+	if !is_stunned:
+		$ColorRect.visible = false
+		movement.move(Vector2.ZERO)
+	else:
+		$ColorRect.visible = true

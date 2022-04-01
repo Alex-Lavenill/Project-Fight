@@ -50,6 +50,7 @@ func dash(dir: Vector2) -> void:
 			dash_timer.start()
 
 func knockback(final_force: float, dir: Vector2) -> void:
+	velocity = Vector2.ZERO
 	var knockback_strength : float = final_force * force_modifier
 	print('Final KO force: ', knockback_strength)
 	velocity = dir * knockback_strength

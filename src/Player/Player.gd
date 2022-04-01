@@ -7,6 +7,8 @@ export (float) var defense := 10
 onready var movement := $Movement
 onready var hitbox := $Hitbox
 
+var is_stunned := false
+
 func get_input():
 	var dir :=  Vector2.ZERO
 	
@@ -33,9 +35,15 @@ func get_input():
 			hitbox.up_light(strenght)
 
 func _physics_process(delta: float) -> void:
-	if !hitbox.is_hitting:
-		get_input()
+	if is_stunned:
+		$ColorRect.visible = true
+		
 	else:
-		movement.move(Vector2.ZERO)
+		$ColorRect.visible = false
+		if hitbox.is_hitting:
+			movement.move(Vector2.ZERO)
+			
+		else:
+			get_input()
 
 
