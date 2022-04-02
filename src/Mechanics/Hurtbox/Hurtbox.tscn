@@ -1,10 +1,16 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/Mechanics/Hurtbox/Hurtbox.gd" type="Script" id=1]
+[ext_resource path="res://fonts/JMH Holy Bible.ttf" type="DynamicFontData" id=2]
 
 [sub_resource type="CapsuleShape2D" id=7]
 radius = 16.0
 height = 32.0
+
+[sub_resource type="DynamicFont" id=8]
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
 
 [node name="Hurtbox" type="Area2D"]
 script = ExtResource( 1 )
@@ -15,7 +21,20 @@ light_mask = 2
 z_index = 2
 shape = SubResource( 7 )
 
-[node name="Label" type="Label" parent="."]
+[node name="Stun" type="Timer" parent="."]
+
+[node name="LbLifes" type="Label" parent="."]
+margin_left = -5.0
+margin_top = -8.0
+margin_right = 5.0
+margin_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = SubResource( 8 )
+align = 1
+valign = 1
+
+[node name="LbDamage" type="Label" parent="."]
 margin_left = -20.0
 margin_top = -50.0
 margin_right = 20.0
@@ -24,8 +43,6 @@ grow_horizontal = 2
 grow_vertical = 2
 align = 1
 valign = 1
-
-[node name="Stun" type="Timer" parent="."]
 
 [connection signal="area_entered" from="." to="." method="_Hurtbox_area_entered"]
 [connection signal="timeout" from="Stun" to="." method="_Stun_timeout"]

@@ -27,8 +27,8 @@ var directional_pressed := {
 } 
 
 # Functions
+
 func _input(event: InputEvent) -> void:
-	var dir :=  Vector2.ZERO
 	
 	# Directional press
 	if event.is_action_pressed("down", true):
@@ -42,22 +42,17 @@ func _input(event: InputEvent) -> void:
 	
 	# Directional release
 	if event.is_action_released("down"):
-		print("DOWN RELEASED")
 		directional_pressed.Down = false
 	if event.is_action_released("up"):
-		print("UP RELEASED")
 		directional_pressed.Up = false
 	if event.is_action_released("left"):
-		print("SIDE RELEASED")
 		directional_pressed.Side = false
 	if event.is_action_released("right"):
-		print("Side RELEASED")
 		directional_pressed.Side = false
 	
 	# Register Directionals
 	if directional_pressed.Down:
 		add_input('d')
-		dir
 	elif directional_pressed.Up:
 		add_input('u')
 	elif directional_pressed.Side:
@@ -66,19 +61,14 @@ func _input(event: InputEvent) -> void:
 	# Register Action
 	if event.is_action_pressed("light"):
 		add_input('l')
-	print(input_sequence)
 
 func add_input(input: String) -> void:
-	print('input')
 	if input_sequence.size() == light_combo_length:
-		print('1')
 		if input_sequence[0] == input_sequence[1]:
-			print('2')
 			input_sequence.pop_front()
 		else:
 			return
 	input_sequence.push_back(input)
-	print('final ', input_sequence)
 
 func do_combo(inputs: Array) -> void:
 	var combo : String = light_combos.get(inputs, "")
@@ -86,14 +76,13 @@ func do_combo(inputs: Array) -> void:
 		match combo:
 			"UpLight":
 				hitbox.up_light(parent.strength)
-				print("UpLight")
 			"SideLight":
 #				side_light(strength)
-				print("SideLight")
+				pass
 			"DownLight":
 				hitbox.down_light(parent.strength)
-				print("DownLight")
 
+# Process
 func _physics_process(delta: float) -> void:
 	if not input_sequence.empty():
 		input_time -= delta

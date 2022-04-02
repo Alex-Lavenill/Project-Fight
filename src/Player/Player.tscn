@@ -18,7 +18,8 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 16, 32 )
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=["PLAYER"]]
+pause_mode = 1
 collision_mask = 5
 script = ExtResource( 2 )
 
@@ -29,6 +30,9 @@ animation = "Idle"
 [node name="Coll" type="CollisionShape2D" parent="."]
 z_index = 1
 shape = SubResource( 9 )
+
+[node name="ComboInput" type="Node2D" parent="."]
+script = ExtResource( 6 )
 
 [node name="Movement" parent="." instance=ExtResource( 1 )]
 
@@ -43,6 +47,3 @@ margin_top = -32.0
 margin_right = 16.0
 margin_bottom = 32.0
 color = Color( 0.701961, 0.701961, 0.701961, 1 )
-
-[node name="ComboInput" type="Node2D" parent="."]
-script = ExtResource( 6 )

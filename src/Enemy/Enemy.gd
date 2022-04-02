@@ -21,7 +21,7 @@ func _physics_process(delta: float) -> void:
 	grounded = is_on_floor()
 	is_hitting = hitbox.is_hitting
 	if !hitbox.is_hitting:
-		hitbox.up_light(strength)
+#		hitbox.up_light(strength)
 		pass
 	else:
 		is_hitting = true

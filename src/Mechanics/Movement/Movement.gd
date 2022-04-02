@@ -34,7 +34,6 @@ func _physics_process(delta: float) -> void:
 func move(direction: Vector2) -> void:
 	curr_dir != last_dir
 	if direction.x != 0:
-		print("alo")
 		velocity.x = lerp(velocity.x, direction.x * speed, acceleration)
 	else:
 		if parent.grounded:
