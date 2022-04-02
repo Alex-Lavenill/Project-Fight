@@ -1,18 +1,22 @@
 extends KinematicBody2D
 
-# FIGHTER STATUS
-export (float) var strenght := 50
+# Exports
+export (float) var strength := 50
 export (float) var defense := 10
 
+# Objects
 onready var movement := $Movement
+onready var animSpr := $AnimSpr
 onready var hitbox := $Hitbox
 
+# Booleans
+var grounded := false
 var is_stunned := false
+var is_hitting := false
 
-func get_input():
-	var dir :=  Vector2.ZERO
-	
-	# MOVEMENT
+func input() -> void:
+	var dir := Vector2.ZERO
+	# Walk
 	if Input.is_action_pressed("up"):
 		dir.y -= 1
 	if Input.is_action_pressed("down"):
@@ -21,29 +25,27 @@ func get_input():
 		dir.x += 1
 	if Input.is_action_pressed("left"):
 		dir.x -= 1
-	if Input.is_action_pressed("down"):
-		movement.fall_through()
-	if Input.is_action_just_pressed("jump"):
-		movement.jump()
-	if Input.is_action_just_pressed("dash"):
-		movement.dash(dir)
 	movement.move(dir)
 	
-	# ATTACKS
-	if Input.is_action_pressed("light") and Input.is_action_pressed("up"):
-		if !hitbox.is_hitting:
-			hitbox.up_light(strenght)
+	# ACTIONS
+	if Input.is_action_pressed("down"):
+		movement.fall_through()
+	elif Input.is_action_just_pressed("jump"):
+		movement.jump()
+	elif Input.is_action_just_pressed("dash"):
+		movement.dash(dir)
 
 func _physics_process(delta: float) -> void:
+	grounded = is_on_floor()
+	is_hitting = hitbox.is_hitting
 	if is_stunned:
 		$ColorRect.visible = true
 		
 	else:
 		$ColorRect.visible = false
-		if hitbox.is_hitting:
+		if is_hitting:
 			movement.move(Vector2.ZERO)
 			
 		else:
-			get_input()
-
+			input()
 

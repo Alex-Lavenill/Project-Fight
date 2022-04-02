@@ -1,10 +1,10 @@
 extends Area2D
 
-export (float) var recovery = 0.08
-export (float) var cooldown = 0.05
-export (float) var stun = 0.07
-export (float) var damage = 8.0
-export (float) var var_force = 5.0
+export (float) var recovery = 0.05
+export (float) var cooldown = 0.04
+export (float) var stun = 0.15
+export (float) var damage = 6.0
+export (float) var var_force = 0.5
 export (float) var fix_force = 15.0
 
 onready var parent := get_parent()
@@ -39,17 +39,9 @@ func _AnimPlayer_animation_finished(anim_name: String) -> void:
 func _UpLight_body_entered() -> void:
 	missed = false
 
+func _UpLight_body_exited(body: Node) -> void:
+	missed = true
+
 func _Timer_timeout() -> void:
 	missed = false
 	_AnimPlayer_animation_finished("hit")
-
-
-
-
-
-
-
-
-
-
-
