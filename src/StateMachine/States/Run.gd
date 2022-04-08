@@ -34,8 +34,12 @@ func physics_update(delta: float) -> void:
 	var movement : String = owner.movement_input()
 	if not movement == '':
 		var msg := {}
-		if movement == 'Dash':
-			msg['direction'] = dir
+		
+		match (movement):
+			'Dash':
+				msg['direction'] = dir
+			'Fall-Through':
+				 msg['from_the_air'] = false
 		state_machine.transition_to(movement, msg)
 		return
 

@@ -7,11 +7,12 @@ func enter(msg := {}) -> void:
 
 
 func physics_update(delta: float) -> void:	
-	
 	# checks if we need to change the state
 	if not owner.is_on_floor():
 		state_machine.transition_to("Fall")
 		return
+	
+	owner.can_jump = true
 	
 	
 	# decelerating the owner
@@ -39,8 +40,12 @@ func physics_update(delta: float) -> void:
 	# Checks if the movement recieved is prohibited
 	if not movement == '' and not prohibited.has(movement):
 		var msg := {}
-		if movement == 'Dash':
-			msg['direction'] = dir
+		
+		match (movement):
+			'Dash':
+				msg['direction'] = dir
+			'Fall-Through':
+				 msg['from_the_air'] = false
 		state_machine.transition_to(movement, msg)
 
 

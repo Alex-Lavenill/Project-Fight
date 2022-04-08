@@ -29,6 +29,7 @@ var heavy_attacks := {
 var skills: Dictionary
 
 # Booleans
+var can_fall := false
 var can_dash := true
 var can_jump := true
 var is_dashing := false

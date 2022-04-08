@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://src/StateMachine/States/Jump.gd" type="Script" id=1]
 [ext_resource path="res://src/Player/Player.gd" type="Script" id=2]
@@ -10,25 +10,43 @@
 [ext_resource path="res://src/StateMachine/States/Idle.gd" type="Script" id=8]
 [ext_resource path="res://src/StateMachine/States/Fall.gd" type="Script" id=9]
 [ext_resource path="res://src/StateMachine/States/Run.gd" type="Script" id=10]
+[ext_resource path="res://src/StateMachine/States/Fall-Through.gd" type="Script" id=11]
 
 [sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 16, 32 )
+extents = Vector2( 16, 3 )
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 1, 16 )
 
 [node name="Player" type="KinematicBody2D"]
 pause_mode = 1
-collision_mask = 5
+collision_mask = 13
 script = ExtResource( 2 )
 
 [node name="AnimSpr" type="Sprite" parent="."]
 texture = ExtResource( 4 )
 
 [node name="Coll" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 29 )
 z_index = 1
 shape = SubResource( 9 )
 
 [node name="Hitbox" parent="." instance=ExtResource( 5 )]
 
 [node name="Hurtbox" parent="." instance=ExtResource( 3 )]
+
+[node name="Detector" type="Area2D" parent="."]
+position = Vector2( 0, 23 )
+collision_layer = 0
+collision_mask = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Coll" type="CollisionShape2D" parent="Detector"]
+position = Vector2( 0, 10 )
+rotation = 1.5708
+shape = SubResource( 10 )
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 7 )
@@ -43,6 +61,13 @@ script = ExtResource( 10 )
 [node name="Fall" type="Node" parent="StateMachine"]
 script = ExtResource( 9 )
 
+[node name="Fall-Through" type="Node" parent="StateMachine"]
+script = ExtResource( 11 )
+
+[node name="Duration" type="Timer" parent="StateMachine/Fall-Through"]
+wait_time = 0.005
+one_shot = true
+
 [node name="Jump" type="Node" parent="StateMachine"]
 script = ExtResource( 1 )
 
@@ -55,5 +80,8 @@ one_shot = true
 [node name="Cooldown" type="Timer" parent="StateMachine/Dash"]
 one_shot = true
 
+[connection signal="body_entered" from="Detector" to="." method="_on_Detector_body_entered"]
+[connection signal="body_exited" from="Detector" to="." method="_on_Detector_body_exited"]
+[connection signal="timeout" from="StateMachine/Fall-Through/Duration" to="StateMachine/Fall-Through" method="_on_Duration_timeout"]
 [connection signal="timeout" from="StateMachine/Dash/Duration" to="StateMachine/Dash" method="_on_Duration_timeout"]
 [connection signal="timeout" from="StateMachine/Dash/Cooldown" to="StateMachine/Dash" method="_on_Cooldown_timeout"]

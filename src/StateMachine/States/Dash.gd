@@ -23,15 +23,24 @@ func enter(msg := {}) -> void:
 	owner.is_dashing = true
 	
 	
+	# Capture the direction and set a default direction if is empty
+	var dir := Vector2(owner.curr_direction, 0)
+	
+	
+	if not msg['direction'] == Vector2.ZERO:
+		if not owner.is_on_floor():
+			
+			if not msg['direction'].x == 0 and not msg['direction'].x == owner.curr_direction:
+				
+				state_machine.transition_to('Fall')
+				return
+			
+		dir = msg['direction'].normalized()
+	
+	
 	# Sets and starts the duration timer
 	duration.wait_time = duration_time
 	duration.start()
-	
-	
-	# Capture the direction and set a default direction if is empty
-	var dir := Vector2(owner.curr_direction, 0)
-	if not msg['direction'] == Vector2.ZERO:
-		dir = msg['direction'].normalized()
 	
 	
 	# Sets the dash velocity
