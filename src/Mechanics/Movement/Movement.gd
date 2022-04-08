@@ -1,8 +1,8 @@
 extends Node2D
 
 export (int) var speed = 300
-export (int) var dash_speed = 450
-export (int) var jump_speed = -600
+export (int) var dash_speed = 570
+export (int) var jump_speed = -700
 export (int) var gravity = 1800
 export (float, 0, 1.0) var air_friction = 0.04
 export (float, 0, 1.0) var ground_friction = 0.2
@@ -31,6 +31,9 @@ func _physics_process(delta: float) -> void:
 	velocity.y += gravity * delta
 	velocity = parent.move_and_slide(velocity, Vector2.UP)
 
+func stop_all() -> void:
+	velocity = Vector2.ZERO
+
 func move(direction: Vector2) -> void:
 	curr_dir != last_dir
 	if direction.x != 0:
@@ -50,7 +53,10 @@ func fall_through() -> void:
 	if can_fall:
 		parent.position.y += 5
 
-func jump() -> void:
+func jump(priority := false) -> void:
+	if priority:
+		velocity.y = jump_speed
+		return
 	if can_jump:
 		if !parent.grounded:
 			can_jump = false

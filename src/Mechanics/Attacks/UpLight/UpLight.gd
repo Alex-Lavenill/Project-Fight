@@ -1,9 +1,9 @@
 extends Area2D
 
-export (float) var recovery = 0.08
+export (float) var recovery = 0.09
 export (float) var cooldown = 0.05
 export (float) var stun = 0.07
-export (float) var damage = 8.0
+export (float) var damage = 9.0
 export (float) var var_force = 5.0
 export (float) var fix_force = 15.0
 

@@ -1,55 +1,78 @@
-extends KinematicBody2D
+extends Character
 
-# Exports
-export (float) var strength := 50
-export (float) var defense := 10
 
 # Objects
 onready var hitbox := $Hitbox
 onready var hurtbox := $Hurtbox
 onready var animSpr := $AnimSpr
 onready var movement := $Movement
+onready var stateMachine := $StateMachine
 
 # Booleans
+var can_attack := true
+
+
 var grounded := false
-var is_stunned := false
-var is_hitting := false
+
+var is_stopped := false
+
 
 # Functions
+func _ready() -> void:
+	curr_direction = 1 if scale.x == 1 else -1
 
-func input() -> void:
-	var dir := Vector2.ZERO
-	# Walk
-	if Input.is_action_pressed("up"):
-		dir.y -= 1
-	if Input.is_action_pressed("down"):
-		dir.y += 1
-	if Input.is_action_pressed("right"):
-		dir.x += 1
-	if Input.is_action_pressed("left"):
-		dir.x -= 1
-	movement.move(dir)
+
+func directional_input() -> Vector2:
+	var direction := Vector2.ZERO
 	
-	# ACTIONS
+	if Input.is_action_pressed("up"):
+		direction.y -= 1
 	if Input.is_action_pressed("down"):
-		movement.fall_through()
-	elif Input.is_action_just_pressed("jump"):
-		movement.jump()
-	elif Input.is_action_just_pressed("dash"):
-		movement.dash(dir)
+		direction.y += 1
+	if Input.is_action_pressed("right"):
+		direction.x += 1
+	if Input.is_action_pressed("left"):
+		direction.x -= 1
+	
+	if not direction.x == 0 and not direction.x == curr_direction:
+		scale.x *= -1
+		curr_direction *= -1
+		return Vector2.ZERO
+	
+	return direction
 
-# Process
-func _physics_process(delta: float) -> void:
-	grounded = is_on_floor()
-	is_hitting = hitbox.is_hitting
-	if is_stunned:
-		$ColorRect.visible = true
-		
-	else:
-		$ColorRect.visible = false
-		if is_hitting:
-			movement.move(Vector2.ZERO)
-			
-		else:
-			input()
+
+func movement_input() -> String:
+	var state := ''
+	
+	if Input.is_action_just_pressed("jump") and can_jump:
+		state = 'Jump'
+	elif Input.is_action_just_pressed("dash") and can_dash:
+		state = 'Dash'
+	
+	return state
+
+
+func combo_input() -> void:
+	
+	return
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

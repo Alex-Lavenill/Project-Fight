@@ -1,16 +1,19 @@
 extends KinematicBody2D
 
-# FIGHTER STATUS
+# Exports
 export (float) var strength := 50
 export (float) var defense := 10
 
-onready var hurtbox := $Hurtbox
+# Objects
 onready var hitbox := $Hitbox
+onready var hurtbox := $Hurtbox
 onready var movement := $Movement
 
+# Booleans
 var grounded := false
-var is_stunned := false
-var is_hitting := false
+var is_stopped := false
+
+# Integers
 var stun_time := 0
 
 func _ready() -> void:
@@ -19,14 +22,10 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	grounded = is_on_floor()
-	is_hitting = hitbox.is_hitting
-	if !hitbox.is_hitting:
-#		hitbox.up_light(strength)
-		pass
+	movement.move(Vector2.ZERO)
+	
+	if hurtbox.is_stunned or hitbox.is_hitting or hurtbox.shield_on:
+		is_stopped = true
 	else:
-		is_hitting = true
-	if !is_stunned:
-		$ColorRect.visible = false
-		movement.move(Vector2.ZERO)
-	else:
-		$ColorRect.visible = true
+		is_stopped = false
+	

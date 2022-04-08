@@ -1,12 +1,12 @@
 extends Node2D
 
+# Signals
+signal win(name)
+
 # Objects
 onready var leftPos := $LeftPos
 onready var rightPos := $RightPos
 onready var parent := get_parent()
-
-# Signals
-signal win(name)
 
 # Functions
 
@@ -36,11 +36,10 @@ func kill_character(Char: Node) -> void:
 # Signals
 
 func _UpKillbox_body_entered(body: Node) -> void:
-	if body.is_stunned:
+	if body.hurtbox.is_stunned:
 		kill_character(body)
 
 func _DownKillbox_body_entered(body: Node) -> void:
-	print("ISSO MATOU")
 	kill_character(body)
 
 func _LeftKillbox_body_entered(body: Node) -> void:

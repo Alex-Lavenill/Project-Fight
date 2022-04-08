@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/Maps/ProtoMap/ProtoMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/Player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/Enemy/Enemy.tscn" type="PackedScene" id=3]
-[ext_resource path="res://src/Main/Main.gd" type="Script" id=4]
 [ext_resource path="res://fonts/JMH Holy Bible.ttf" type="DynamicFontData" id=5]
 
 [sub_resource type="DynamicFont" id=1]
@@ -17,15 +16,14 @@ font_data = ExtResource( 5 )
 pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 4 )
 
 [node name="ProtoMap" parent="." instance=ExtResource( 1 )]
 
-[node name="Enemy" parent="." groups=["CHARACTER"] instance=ExtResource( 3 )]
-position = Vector2( 735, 280 )
+[node name="Player" parent="." groups=["CHARACTER", "PLAYER"] instance=ExtResource( 2 )]
+position = Vector2( 332, 283 )
 
-[node name="Player" parent="." groups=["CHARACTER"] instance=ExtResource( 2 )]
-position = Vector2( 323, 280 )
+[node name="Enemy" parent="." groups=["CHARACTER"] instance=ExtResource( 3 )]
+position = Vector2( 737, 283 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 512, 300 )

@@ -5,6 +5,7 @@
 [ext_resource path="res://src/Mechanics/Attacks/DownLight/hit.tres" type="Animation" id=3]
 
 [sub_resource type="CapsuleShape2D" id=1]
+resource_local_to_scene = true
 radius = 6.0
 height = 34.0
 
